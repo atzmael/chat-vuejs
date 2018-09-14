@@ -1,19 +1,45 @@
 <template>
-    <div class="message">
-        <div>
-            <span class="message--text">{{ message }}</span>
-            <span class="message--user"><span class="message--user--name">Flo</span><img src="https://i.pinimg.com/originals/34/7a/a1/347aa1944e5e7918813ba76e79048212.png" alt="" class="message--user--img"></span>
+    <transition name="bla">
+        <div class="message" v-bind:class="{you: isYou}">
+            <div>
+                <div class="message--text">
+                    {{ message.text }}
+                    <!-- <span class="message--text--time">{{message.created}}</span> -->
+                </div>
+                <div class="message--user">
+                    <img :src="user.customminiavatar" alt="" class="message--user--img">
+                    <span class="message--user--name">{{ message.user.username }}</span>
+                </div>
+            </div>
         </div>
-    </div>
+    </transition>
 </template>
 
 <script>
+import store from '@/store.js'
 
 export default {
   name: 'message',
+  data () {
+    return {
+      username: store.user.username,
+      isYou: null
+    }
+  },
+  created: function () {
+    this.$nextTick(() => {
+      // this.avatar = `/img/${this.avatars[Math.floor(Math.random() * this.avatars.length)]}.svg`
+      this.isYou = this.username === this.message.user.username
+    })
+  },
   props: [
     'message'
   ],
+  computed: {
+    user () {
+      return store.users.find((user) => user.username === this.message.user.username)
+    }
+  },
   components: {
   }
 }
@@ -21,7 +47,8 @@ export default {
 
 <style lang="scss">
     .message {
-        margin:15px 10px;
+        margin:10px 10px;
+        max-width:650px;
         cursor: default;
         & > div {
             display: flex;
@@ -30,18 +57,31 @@ export default {
         }
         &--text {
             border-radius: 10px 10px 10px 0px;
-            background: rgb(77, 175, 255);
-            position:relative;
-            top:50%;
-            transform: translateY(-50%);
+            background: #a7cc0d;
             color: #fff;
             padding: 10px 15px;
-            margin-bottom:-15px;
+            position:relative;
+            max-width:650px;
+            word-break: break-all;
+            &:hover &--time {
+                display:initial;
+            }
+            &--time {
+                position:absolute;
+                font-size:14px;
+                font-family: 'OpensansLight', sans-serif;
+                color: #757575;
+                top:50%;
+                right: 0%;
+                transform: translate(130%,-50%);
+                display:none;
+            }
         }
         &--user {
-            position:relative;
             width:30px;
             height:30px;
+            margin-top: 5px;
+            position:relative;
             &:hover &--name {
                 display:initial;
             }
@@ -53,25 +93,13 @@ export default {
             }
             &--name {
                 position:absolute;
-                background: #333333;
+                font-size:14px;
+                font-family: 'OpensansLight', sans-serif;
+                color: #757575;
                 top:50%;
                 right: 0%;
-                transform: translate(120%,-50%);
-                border-radius: 10px;
-                padding: 2px 5px;
-                color: #FFFFFF;
-                transition: 0.3s;
+                transform: translate(130%,-50%);
                 display:none;
-                &::before {
-                    content: "";
-                    position:absolute;
-                    width: 5px;
-                    height: 5px;
-                    top:50%;
-                    left:0;
-                    background: #333333;
-                    transform: translate(-40%,-50%) rotate(45deg);
-                }
             }
         }
     }
@@ -80,6 +108,9 @@ export default {
         align-items: flex-end;
         .message--text {
             border-radius: 10px 10px 0 10px;
+            background: transparent;
+            border: 1px solid #041749;
+            color: #041749;
         }
         .message--user--name {
             right:unset;
@@ -91,5 +122,14 @@ export default {
                 transform: translate(40%,-50%) rotate(45deg);
             }
         }
+    }
+    .bla-enter {
+        opacity:0
+    }
+    .bla-enter-to {
+        opacity:1;
+    }
+    .bla-enter-active {
+        transition: 1s;
     }
 </style>

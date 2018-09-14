@@ -8,17 +8,17 @@
 <script>
 import MessagesList from '@/components/messageBox/MessagesList.vue'
 import SendBox from '@/components/messageBox/SendBox.vue'
-import Store from '@/store.js'
+import store from '@/store.js'
 
 export default {
   name: 'chatbox',
   methods: {
     onMessageSent (message) {
-      Store.messages.push(message)
+      this.$api.messageSend(message)
     }
   },
   computed: {
-    messages: () => Store.messages
+    messages: () => store.messages
   },
   components: {
     MessagesList,

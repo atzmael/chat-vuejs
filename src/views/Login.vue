@@ -7,7 +7,7 @@
 <script>
 // @ is an alias to /src
 import LoginForm from '@/components/LoginForm.vue'
-import Store from '@/store.js'
+import store from '@/store.js'
 
 export default {
   name: 'login',
@@ -15,11 +15,18 @@ export default {
     LoginForm
   },
   methods: {
-    onFormSubmit: function (username) {
-      this.$api.userRegistration({
-        username
-      }).then((user) => {
-        Store.user = user
+    onFormSubmit (username) {
+      this.$api.userRegister(username).then((user) => {
+        window.$('.serrure img').animate({ textIndent: 0 }, {
+          step: function () {
+            $(this).css('-webkit-transform', 'rotate(360deg)')
+          },
+          duration: '600'
+        }, 'linear')
+        setTimeout(() => {
+          store.user = user
+          this.$router.push({ name: 'chat' })
+        }, 600)
       })
     }
   }
@@ -32,6 +39,6 @@ export default {
         align-items: center;
         justify-content: center;
         height:100vh;
-        //background: url(~assets/img/chatroom.jpg);
+        background: url('/img/bg-login.jpg');
     }
 </style>

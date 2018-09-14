@@ -1,17 +1,11 @@
 <template>
-    <div class="messageslist" Autoscroll="bottom">
+    <div class="messageslist">
         <Message v-for="(message, index) in messages" :key="index" :message="message"/>
-        <div class="message you">
-        <span class="message--text">Hey it's you</span>
-        <span class="message--user"><span class="message--user--name">Flo</span><img src="" alt=""></span>
-    </div>
     </div>
 </template>
 
 <script>
-
 import Message from '@/components/messageBox/Message.vue'
-import Autoscroll from 'vue-autoscroll'
 
 export default {
   name: 'messageslist',
@@ -21,20 +15,24 @@ export default {
   components: {
     Message
   },
-  directive: {
-    Autoscroll
+  watch: {
+    messages (messages) {
+      setTimeout(() => {
+        this.$el.scrollTop = this.$el.scrollHeight
+      })
+    }
   }
 }
 </script>
 
 <style lang="scss">
     .messageslist {
-        height:92vh;
+        height:90vh;
         display:flex;
         flex-flow: column;
         align-items:flex-start;
-        padding:20px 0 40px 0;
-        overflow:scroll;
+        padding:20px 10px 40px;
+        overflow:auto;
         box-sizing: border-box;
     }
 </style>

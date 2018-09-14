@@ -6,7 +6,7 @@
 
 <script>
 import User from '@/components/menu/User.vue'
-import Store from '@/store.js'
+import store from '@/store.js'
 
 export default {
   name: 'userlist',
@@ -14,13 +14,15 @@ export default {
     User
   },
   computed: {
-    users: () => Store.users
+    users: () => store.users
   }
 }
 </script>
 
 <style lang="scss">
     .userlist {
-        height:90vh;
+      padding:10px 0 30px;
+      overflow:auto;
+      box-sizing:border-box;
     }
 </style>

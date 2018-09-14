@@ -1,5 +1,7 @@
 <template>
-    <div class="settings"><span>Paramètres</span></div>
+    <div class="settings">
+        <h3>Paramètres</h3>
+    </div>
 </template>
 
 <script>
@@ -13,7 +15,6 @@ export default {
 
 <style lang="scss">
     .settings {
-        height:5vh;
         display:flex;
         align-items: center;
         justify-content: center;
